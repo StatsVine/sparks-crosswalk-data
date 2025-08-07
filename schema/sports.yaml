@@ -1,0 +1,42 @@
+---
+fields:
+  sparks_id:
+    type: string
+    required: true
+    description: SPARKS identifier. Globally unique. Safe to be a slug.
+    notes: lowercase, digits, and dash only.
+    pattern: ^[a-z0-9\-]{1,32}$
+    unique: true
+  label_en-US:
+    type: string
+    required: true
+    description: Proper name of the sport in US English. Unique.
+    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    unique: true
+  wikidata_uri:
+    type: string
+    required: true
+    description: WikiData URI. Unique.
+    notes: Should be an "instance of" (wdt:P31) of "type of sport" (wd:Q31629)
+    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d*$"
+    unique: true
+  iptc_media_topic_uri:
+    type: string
+    required: true
+    description: IPTC Media Topics URI. Unique.
+    notes: Should be part of the "competition discipline" concept (medtop:20000822)
+    pattern: "^https://cv\\.iptc\\.org/newscodes/mediatopic/\\d*$"
+    unique: true
+  espn_api_uri:
+    type: string
+    required: true
+    description: ESPN api URI. Unique.
+    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9]{1,32}$"
+    unique: true
+  reuters_sport_slug:
+    type: string
+    required: true
+    description: Reuters Sports Event Slug. Uppercase.
+    notes: See https://liaison.reuters.com/tools/sports-slugs
+    pattern: "^[A-Z0-9]{1,32}"
+    unique: true
