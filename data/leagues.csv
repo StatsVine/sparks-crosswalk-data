@@ -1,0 +1,5 @@
+sparks_id,sport_id,label_en-US,abbreviation,wikidata_uri,espn_api_uri,reuters_league_slug
+mlb,baseball,Major League Baseball,MLB,https://www.wikidata.org/wiki/Q1163715,https://sports.core.api.espn.com/v2/sports/baseball/leagues/mlb,BASEBALL-MLB
+nba,basketball,National Basketball Assocation,NBA,https://www.wikidata.org/wiki/Q155223,https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba,BASKETBALL-NBA
+nfl,football,National Football League,NFL,https://www.wikidata.org/wiki/Q1215884,https://sports.core.api.espn.com/v2/sports/football/leagues/nfl,FOOTBALL-NFL
+nhl,ice-hockey,National Hockey League,NHL,https://www.wikidata.org/wiki/Q1215892,https://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl,ICEHOCKEY-NHL

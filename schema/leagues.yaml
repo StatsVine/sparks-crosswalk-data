@@ -1,0 +1,48 @@
+---
+fields:
+  sparks_id:
+    type: string
+    required: true
+    description: SPARKS identifier. Globally unique. Safe to be a slug.
+    notes: lowercase, digits, and dash only.
+    pattern: ^[a-z0-9\-]{1,32}$
+    unique: true
+  sport_id:
+    type: reference
+    required: true
+    description: SPARKS sport identifier
+    unique: false
+    reference_file: ./data/sports.csv
+    reference_column: sparks_id
+  label_en-US:
+    type: string
+    required: true
+    description: Proper name of the league in US English. Unique.
+    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    unique: true
+  abbreviation:
+    type: string
+    required: true
+    description: Abbreviation of the league. Unique.
+    pattern: "^[A-Za-z]{1,8}$"
+    unique: true
+  wikidata_uri:
+    type: string
+    required: true
+    description: WikiData URI. Unique.
+    notes: Should be an "instance of" (wdt:P31) of "professional sports league" (wd:Q15991290)
+    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d*$"
+    unique: true
+  espn_api_uri:
+    type: string
+    required: true
+    description: ESPN api URI. Unique.
+    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9]{1,32}/leagues/[a-z0-9]{1,32}$"
+    unique: true
+  reuters_league_slug:
+    type: string
+    required: true
+    description: Reuters Sports Event Slug. Uppercase.
+    notes: See https://liaison.reuters.com/tools/sports-slugs
+    pattern: "^[A-Z0-9\\-]{1,64}"
+    unique: true

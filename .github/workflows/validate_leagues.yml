@@ -1,0 +1,17 @@
+name: Validate leagues CSV
+
+on:
+  push:
+    paths:
+      - data/leagues.csv
+  pull_request:
+    paths:
+      - data/leagues.csv
+  workflow_dispatch:
+
+jobs:
+  validate_sports_csv:
+    uses: ./.github/workflows/validate.yml
+    with:
+      csv-path: data/leagues.csv
+      schema-path: schema/leagues.yaml
