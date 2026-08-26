@@ -1,0 +1,17 @@
+name: Validate venues CSV
+
+on:
+  push:
+    paths:
+      - data/venues.csv
+  pull_request:
+    paths:
+      - data/venues.csv
+  workflow_dispatch:
+
+jobs:
+  validate_venues_csv:
+    uses: ./.github/workflows/validate.yml
+    with:
+      csv-path: data/venues.csv
+      schema-path: schema/venues.yaml

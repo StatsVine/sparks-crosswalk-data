@@ -1,0 +1,83 @@
+---
+fields:
+  sparks_id:
+    type: string
+    required: true
+    description: SPARKS identifier. Globally unique. Safe to be a slug.
+    notes: lowercase, digits, dash, and underscore only.
+    pattern: ^[a-z0-9\-\_]{1,32}$
+    unique: true
+  founding_name:
+    type: string
+    required: true
+    description: Name of the venue at inception. This doesn't change.
+    unique: false
+  current_name:
+    type: string
+    required: true
+    description: Current (or final) name of the venue. Subject to change.
+    unique: false
+  latitude_dd:
+    type: decimal #TODO maybe add a lat/long type
+    required: true
+    # TODO document lat/long convention/standards/precision.
+    description: Latitude of the venue, in decimal degrees
+    # TODO Regex could be tighter, restrict to valid ranges.
+    pattern: ^-?[0-9]{1,2}(?:\.[0-9]{4,5})$
+  longitude_dd:
+    type: decimal
+    required: true
+    description: Longitude of the venue, in decimal degrees.
+    pattern: ^-?[0-9]{1,3}(?:\.[0-9]{4,5})$
+  country_code:
+    # TODO consider a sidecar country code file for validation
+    type: string
+    required: true
+    description: Country code of venue. ISO 3166-1 alpha-2
+    pattern: ^[A-Z]{2}$
+  subdivision_code:
+    # TODO consider a sidecar country code file for validation
+    type: string
+    required: true
+    description: Subdivsion code of venue (province, state, etc). ISO 3166-2
+    pattern: ^[A-Z0-9]{1,3}$
+  city:
+    type: string
+    required: true
+    description: City name of arena.
+  wikidata_id:
+    type: string
+    required: true
+    description: WikiData ID.
+    notes: Should be an "instance of" (wdt:P31) of "stadium" (wd:Q483110)
+    pattern: ^Q\d+$
+    unique: true
+  status:
+    type: enum
+    required: true
+    description: Status of venue.
+    enum: [active,inactive,demolished]
+  year_founded:
+    type: integer
+    required: true
+    description: The year the venue was founded/opened.
+  year_inactive:
+    type: integer
+    required: false
+    description: The year the venue was closed/became inactive. Optional.
+  year_demolished:
+    type: integer
+    required: false
+    description: The year the venue was demolished. Optional.
+  mlb_id:
+    type: integer
+    required: false
+    description: MLB.com/StatsAPI API id
+    pattern: ^\d{1,4}$
+    unique: true
+  espn_id:
+    type: integer
+    required: false
+    description: ESPN API Venue id
+    pattern: ^\d{1,5}$
+    unique: true

@@ -1,0 +1,23 @@
+name: Notify Crosswalk Repo
+
+# This repo is the hand-edited source of truth. Build artifacts live in
+# sparks-crosswalk, which rebuilds them whenever data or schema changes here.
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'data/**'
+      - 'schema/**'
+  workflow_dispatch:
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger sparks-crosswalk build
+        run: |
+          curl -X POST https://api.github.com/repos/statsvine/sparks-crosswalk/dispatches \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.CROSSWALK_DISPATCH_TOKEN }}" \
+            -d '{"event_type":"crosswalk-data-updated"}'

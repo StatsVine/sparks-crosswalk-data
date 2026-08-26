@@ -28,21 +28,42 @@ fields:
     unique: true
   wikidata_uri:
     type: string
-    required: true
+    required: false
     description: WikiData URI. Unique.
     notes: Should be an "instance of" (wdt:P31) of "professional sports league" (wd:Q15991290)
-    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d*$"
+    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d+$"
     unique: true
   espn_api_uri:
     type: string
-    required: true
+    required: false
     description: ESPN api URI. Unique.
     pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9]{1,32}/leagues/[a-z0-9]{1,32}$"
     unique: true
   reuters_league_slug:
     type: string
-    required: true
+    required: false
     description: Reuters Sports Event Slug. Uppercase.
     notes: See https://liaison.reuters.com/tools/sports-slugs
-    pattern: "^[A-Z0-9\\-]{1,64}"
+    pattern: "^[A-Z0-9\\-]{1,64}$"
     unique: true
+  year_founded:
+    type: integer
+    required: true
+    description: The year the league was founded.
+  year_ceased:
+    type: integer
+    required: false
+    description: The year the league ceased. Optional.
+  parent_league:
+    type: reference
+    required: false
+    description: SPARKS ID of the parent_league of this one.
+    notes: This is mainly for MLB.
+    reference_file: ./data/leagues.csv
+    reference_column: sparks_id
+  superseded_by:
+    type: reference
+    required: false
+    description: SPARKS ID of the league that superseded this one, establishing lineage.
+    reference_file: ./data/leagues.csv
+    reference_column: sparks_id
