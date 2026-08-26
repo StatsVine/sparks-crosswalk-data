@@ -18,7 +18,7 @@ fields:
     required: true
     description: WikiData URI. Unique.
     notes: Should be an "instance of" (wdt:P31) of "type of sport" (wd:Q31629)
-    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d*$"
+    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d+$"
     unique: true
   iptc_media_topic_uri:
     type: string
@@ -38,5 +38,5 @@ fields:
     required: true
     description: Reuters Sports Event Slug. Uppercase.
     notes: See https://liaison.reuters.com/tools/sports-slugs
-    pattern: "^[A-Z0-9]{1,32}"
+    pattern: "^[A-Z0-9]{1,32}$"
     unique: true

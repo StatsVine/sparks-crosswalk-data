@@ -1,0 +1,84 @@
+---
+fields:
+  sparks_id:
+    type: string
+    required: true
+    description: SPARKS identifier. Globally unique. Safe to be a slug.
+    notes: lowercase, digits, dash, and underscore only.
+    pattern: ^[a-z0-9\-\_]{1,32}$
+    unique: true
+  sport_id:
+    type: reference
+    required: true
+    description: SPARKS sport identifier
+    unique: false
+    reference_file: ./data/sports.csv
+    reference_column: sparks_id
+  league_id:
+    type: reference
+    required: true
+    description: SPARKS league identifier
+    unique: false
+    reference_file: ./data/leagues.csv
+    reference_column: sparks_id
+  label_en-US:
+    type: string
+    required: true
+    description: Full name of the franchise in US English. Not guaranteed to be unique.
+    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    unique: false
+  location_label_en-US:
+    type: string
+    required: true
+    description: Location name of the franchise in US English. Not guaranteed to be unique.
+    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
+    unique: false
+  nickname_label_en-US:
+    type: string
+    required: true
+    description: Nickname of the franchise in US English. Not guaranteed to be unique.
+    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
+    unique: false
+  abbreviation:
+    type: string
+    required: true
+    description: Abbreviation of the franchise. Not guaranteed to be unique.
+    pattern: "^[A-Za-z]{1,8}$"
+    unique: false
+  wikidata_uri:
+    type: string
+    required: false
+    description: WikiData URI.
+    notes: Should be an "instance of" (wdt:P31) of "sports team" (wd:Q12973014)
+    pattern: "^https://www\\.wikidata\\.org/wiki/Q\\d+$"
+    unique: false
+  status:
+    type: enum
+    required: true
+    description: Status of franchise.
+    enum: [active,defunct,superseded]
+  year_founded:
+    type: integer
+    required: true
+    description: The year the current franchise was established.
+  year_ceased:
+    type: integer
+    required: false
+    description: The year the current franchise ceased. Optional.
+  root_franchise:
+    type: reference
+    required: true
+    description: SPARKS ID of the root/first franchise predating this one. Can be self.
+    reference_file: ./data/franchises.csv
+    reference_column: sparks_id
+  superseded_by:
+    type: reference
+    required: false
+    description: SPARKS ID of the franchise that superseded this one.
+    reference_file: ./data/franchises.csv
+    reference_column: sparks_id
+  superseded_reason:
+    type: enum
+    required: false
+    description: Reason why this franchise ends at the given date.
+    enum: [defunct,realignment,relocation,contracted,merger]

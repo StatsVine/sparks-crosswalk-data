@@ -1,0 +1,46 @@
+sparks_id,sport_id,league_id,label_en-US,location_label_en-US,nickname_label_en-US,abbreviation,wikidata_uri,status,year_founded,year_ceased,root_franchise,superseded_by,superseded_reason
+al_ath_2025,baseball,al,Sacramento Athletics,Sacramento,Athletics,ATH,https://www.wikidata.org/wiki/Q504339,active,2025,,al_phi_1901,,
+al_bal_1954,baseball,al,Baltimore Orioles,Baltimore,Orioles,BAL,https://www.wikidata.org/wiki/Q650816,active,1954,,al_mil_1901,,
+al_bos_1901,baseball,al,Boston Red Sox,Boston,Red Sox,BOS,https://www.wikidata.org/wiki/Q213959,active,1901,,al_bos_1901,,
+al_cle_1901,baseball,al,Cleveland Guardians,Cleveland,Guardians,CLE,https://www.wikidata.org/wiki/Q642553,active,1901,,al_cle_1901,,
+al_cws_1901,baseball,al,Chicago White Sox,Chicago,White Sox,CWS,https://www.wikidata.org/wiki/Q335169,active,1901,,al_cws_1901,,
+al_det_1901,baseball,al,Detroit Tigers,Detroit,Tigers,DET,https://www.wikidata.org/wiki/Q650855,active,1901,,al_det_1901,,
+al_hou_2013,baseball,al,Houston Astros,Houston,Astros,HOU,https://www.wikidata.org/wiki/Q848117,active,2013,,nl_hou_1962,,
+al_kc_1969,baseball,al,Kansas City Royals,Kansas City,Royals,KC,https://www.wikidata.org/wiki/Q744530,active,1969,,al_kc_1969,,
+al_kca_1955,baseball,al,Kansas City Athletics,Kansas City,Athletics,KCA,https://www.wikidata.org/wiki/Q128565926,superseded,1955,1967,al_phi_1901,al_oak_1968,relocation
+al_laa_1961,baseball,al,Los Angeles Angels,Los Angeles,Angels,LAA,https://www.wikidata.org/wiki/Q743309,active,1961,,al_laa_1961,,
+al_mil_1901,baseball,al,Milwaukee Brewers,Milwaukee,Brewers,MIL,https://www.wikidata.org/wiki/Q117253695,superseded,1901,1901,al_mil_1901,al_stl_1902,relocation
+al_mil_1970,baseball,al,Milwaukee Brewers,Milwaukee,Brewers,MIL,https://www.wikidata.org/wiki/Q848103,superseded,1970,1997,al_sea_1969,nl_mil_1998,realignment
+al_min_1961,baseball,al,Minnesota Twins,Minnesota,Twins,MIN,https://www.wikidata.org/wiki/Q604879,active,1961,,al_was_1901,,
+al_nyy_1903,baseball,al,New York Yankees,New York,Yankees,NYY,https://www.wikidata.org/wiki/Q213417,active,1903,,al_nyy_1903,,
+al_oak_1968,baseball,al,Oakland Athletics,Oakland,Athletics,OAK,https://www.wikidata.org/wiki/Q131926583,superseded,1968,2024,al_phi_1901,al_ath_2025,relocation
+al_phi_1901,baseball,al,Philadelphia Athletics,Philadelphia,Athletics,PHI,https://www.wikidata.org/wiki/Q5870201,superseded,1901,1954,al_phi_1901,al_kca_1955,relocation
+al_sea_1969,baseball,al,Seattle Pilots,Seattle,Pilots,SEA,https://www.wikidata.org/wiki/Q7442149,superseded,1969,1969,al_sea_1969,al_mil_1970,relocation
+al_sea_1977,baseball,al,Seattle Mariners,Seattle,Mariners,SEA,https://www.wikidata.org/wiki/Q466586,active,1977,,al_sea_1977,,
+al_stl_1902,baseball,al,St. Louis Browns,St. Louis,Browns,STL,https://www.wikidata.org/wiki/Q11314813,superseded,1902,1953,al_mil_1901,al_bal_1954,relocation
+al_tb_1998,baseball,al,Tampa Bay Rays,Tampa Bay,Rays,TB,https://www.wikidata.org/wiki/Q650865,active,1998,,al_tb_1998,,
+al_tex_1972,baseball,al,Texas Rangers,Texas,Rangers,TEX,https://www.wikidata.org/wiki/Q329816,active,1972,,al_was_1961,,
+al_tor_1977,baseball,al,Toronto Blue Jays,Toronto,Blue Jays,TOR,https://www.wikidata.org/wiki/Q650829,active,1977,,al_tor_1977,,
+al_was_1901,baseball,al,Washington Senators,Washington,Senators,WAS,https://www.wikidata.org/wiki/Q17030254,superseded,1901,1960,al_was_1901,al_min_1961,relocation
+al_was_1961,baseball,al,Washington Senators,Washington,Senators,WAS,https://www.wikidata.org/wiki/Q111678972,superseded,1961,1971,al_was_1961,al_tex_1972,relocation
+nl_ari_1998,baseball,nl,Arizona Diamondbacks,Arizona,Diamondbacks,ARI,https://www.wikidata.org/wiki/Q670376,active,1998,,nl_ari_1998,,
+nl_atl_1966,baseball,nl,Atlanta Braves,Atlanta,Braves,ATL,https://www.wikidata.org/wiki/Q461595,active,1966,,nl_bos_1876,,
+nl_bkn_1890,baseball,nl,Brooklyn Dodgers,Brooklyn,Dodgers,BKN,https://www.wikidata.org/wiki/Q5869184,superseded,1890,1957,nl_bkn_1890,nl_lad_1958,relocation
+nl_bos_1876,baseball,nl,Boston Braves,Boston,Braves,BOS,https://www.wikidata.org/wiki/Q5869139,superseded,1876,1952,nl_bos_1876,nl_mil_1953,relocation
+nl_chc_1876,baseball,nl,Chicago Cubs,Chicago,Cubs,CHC,https://www.wikidata.org/wiki/Q246782,active,1876,,nl_chc_1876,,
+nl_cin_1890,baseball,nl,Cincinnati Reds,Cincinnati,Reds,CIN,https://www.wikidata.org/wiki/Q826751,active,1890,,nl_cin_1890,,
+nl_col_1993,baseball,nl,Colorado Rockies,Colorado,Rockies,COL,https://www.wikidata.org/wiki/Q388858,active,1993,,nl_col_1993,,
+nl_hou_1962,baseball,nl,Houston Astros,Houston,Astros,HOU,https://www.wikidata.org/wiki/Q848117,superseded,1962,2012,nl_hou_1962,al_hou_2013,realignment
+nl_lad_1958,baseball,nl,Los Angeles Dodgers,Los Angeles,Dodgers,LAD,https://www.wikidata.org/wiki/Q334634,active,1958,,nl_bkn_1890,,
+nl_mia_1993,baseball,nl,Miami Marlins,Miami,Marlins,MIA,https://www.wikidata.org/wiki/Q652879,active,1993,,nl_mia_1993,,
+nl_mil_1953,baseball,nl,Milwaukee Braves,Milwaukee,Braves,MIL,https://www.wikidata.org/wiki/Q127777377,superseded,1953,1965,nl_bos_1876,nl_atl_1966,relocation
+nl_mil_1998,baseball,nl,Milwaukee Brewers,Milwaukee,Brewers,MIL,https://www.wikidata.org/wiki/Q848103,active,1998,,al_sea_1969,,
+nl_mon_1969,baseball,nl,Montreal Expos,Montreal,Expos,MON,https://www.wikidata.org/wiki/Q1148233,superseded,1969,2004,nl_mon_1969,nl_was_2005,relocation
+nl_nyg_1883,baseball,nl,New York Giants,New York,Giants,NYG,https://www.wikidata.org/wiki/Q3024169,superseded,1883,1957,nl_nyg_1883,nl_sf_1958,relocation
+nl_nym_1962,baseball,nl,New York Mets,New York,Mets,NYM,https://www.wikidata.org/wiki/Q692417,active,1962,,nl_nym_1962,,
+nl_phi_1883,baseball,nl,Philadelphia Phillies,Philadelphia,Phillies,PHI,https://www.wikidata.org/wiki/Q650840,active,1883,,nl_phi_1883,,
+nl_pit_1887,baseball,nl,Pittsburgh Pirates,Pittsburgh,Pirates,PIT,https://www.wikidata.org/wiki/Q653772,active,1887,,nl_pit_1887,,
+nl_sd_1969,baseball,nl,San Diego Padres,San Diego,Padres,SD,https://www.wikidata.org/wiki/Q721134,active,1969,,nl_sd_1969,,
+nl_sf_1958,baseball,nl,San Francisco Giants,San Francisco,Giants,SF,https://www.wikidata.org/wiki/Q308966,active,1958,,nl_nyg_1883,,
+nl_stl_1892,baseball,nl,St. Louis Cardinals,St. Louis,Cardinals,STL,https://www.wikidata.org/wiki/Q504309,active,1892,,nl_stl_1892,,
+nl_was_2005,baseball,nl,Washington Nationals,Washington,Nationals,WAS,https://www.wikidata.org/wiki/Q825838,active,2005,,nl_mon_1969,,
