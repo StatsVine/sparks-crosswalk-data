@@ -4,14 +4,14 @@ fields:
     type: string
     required: true
     description: SPARKS identifier. Globally unique. Safe to be a slug.
-    notes: lowercase, digits, and dash only.
-    pattern: ^[a-z0-9\-]{1,32}$
+    notes: lowercase alphanumeric segments separated by single dashes.
+    pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
     unique: true
-  label_en-US:
+  label:
     type: string
     required: true
     description: Proper name of the sport in US English. Unique.
-    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
     unique: true
   wikidata_uri:
     type: string
@@ -22,20 +22,20 @@ fields:
     unique: true
   iptc_media_topic_uri:
     type: string
-    required: true
+    required: false
     description: IPTC Media Topics URI. Unique.
     notes: Should be part of the "competition discipline" concept (medtop:20000822)
-    pattern: "^https://cv\\.iptc\\.org/newscodes/mediatopic/\\d*$"
+    pattern: "^https://cv\\.iptc\\.org/newscodes/mediatopic/\\d+$"
     unique: true
   espn_api_uri:
     type: string
-    required: true
+    required: false
     description: ESPN api URI. Unique.
-    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9]{1,32}$"
+    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9\\-]{1,32}$"
     unique: true
   reuters_sport_slug:
     type: string
-    required: true
+    required: false
     description: Reuters Sports Event Slug. Uppercase.
     notes: See https://liaison.reuters.com/tools/sports-slugs
     pattern: "^[A-Z0-9]{1,32}$"

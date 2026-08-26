@@ -1,4 +1,4 @@
-sparks_id,sport_id,league_id,label_en-US,location_label_en-US,nickname_label_en-US,abbreviation,wikidata_uri,status,year_founded,year_ceased,root_franchise,superseded_by,superseded_reason
+sparks_id,sport_id,league_id,label,location_label,nickname_label,abbreviation,wikidata_uri,status,year_founded,year_ceased,root_franchise,superseded_by,superseded_reason
 al_ath_2025,baseball,al,Sacramento Athletics,Sacramento,Athletics,ATH,https://www.wikidata.org/wiki/Q504339,active,2025,,al_phi_1901,,
 al_bal_1954,baseball,al,Baltimore Orioles,Baltimore,Orioles,BAL,https://www.wikidata.org/wiki/Q650816,active,1954,,al_mil_1901,,
 al_bos_1901,baseball,al,Boston Red Sox,Boston,Red Sox,BOS,https://www.wikidata.org/wiki/Q213959,active,1901,,al_bos_1901,,

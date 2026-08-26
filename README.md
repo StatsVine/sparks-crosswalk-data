@@ -42,17 +42,24 @@ Each CSV has a matching schema in [`schema/`](schema/).
 
 Baseball, basketball, football, ice hockey, soccer.
 
-`sparks_id`, `label_en-US`, `wikidata_uri`, `iptc_media_topic_uri`, `espn_api_uri`, `reuters_sport_slug`
+`sparks_id`, `label`, `wikidata_uri`, `iptc_media_topic_uri`, `espn_api_uri`, `reuters_sport_slug`
 
 ### leagues.csv
 
-`sparks_id`, `sport_id`, `label_en-US`, `abbreviation`, `wikidata_uri`, `espn_api_uri`, `reuters_league_slug`, `year_founded`, `year_ceased`, `parent_league`, `superseded_by`
+`sparks_id`, `sport_id`, `label`, `abbreviation`, `wikidata_uri`, `espn_api_uri`, `reuters_league_slug`, `year_founded`, `year_ceased`, `parent_league`, `superseded_by`
 
-`parent_league` models the AL and NL sitting under MLB. `superseded_by` records lineage — the 1920 APFA is superseded by the NFL.
+The two relationship fields express different things, and the test is temporal:
+
+- **`parent_league` is concurrent containment** — the child still exists, inside the parent. The AL and NL sit under MLB.
+- **`superseded_by` is sequential replacement** — the predecessor stopped existing. The 1920 APFA is superseded by the NFL.
+
+Note the parent is *younger* than its children here (MLB 1903, AL 1901, NL 1876), because MLB was created in 1903 as an umbrella over two leagues that both continued. "Parent founded before child" is therefore not a valid invariant.
+
+The AL and NL stopped being independent legal entities around 2000 and now function as conferences within MLB. **That distinction is deliberately not modelled.** Every provider SPARKS maps to still treats them as live leagues, and the franchise data depends on it: two franchise records exist purely to capture AL↔NL moves — the 1998 Brewers and the 2013 Astros — and both would be reduced to `mlb → mlb` if the unification were treated as a supersession.
 
 ### franchises.csv
 
-`sparks_id`, `sport_id`, `league_id`, `label_en-US`, `location_label_en-US`, `nickname_label_en-US`, `abbreviation`, `wikidata_uri`, `status`, `year_founded`, `year_ceased`, `root_franchise`, `superseded_by`, `superseded_reason`
+`sparks_id`, `sport_id`, `league_id`, `label`, `location_label`, `nickname_label`, `abbreviation`, `wikidata_uri`, `status`, `year_founded`, `year_ceased`, `root_franchise`, `superseded_by`, `superseded_reason`
 
 Franchise history is modelled explicitly rather than flattened. `status` is one of `active`, `defunct`, or `superseded`; `superseded_reason` is one of `relocation`, `realignment`, `defunct`, `contracted`, or `merger`. `root_franchise` points back to the first franchise in the lineage (and may be self-referential), so the Dodgers chain resolves as:
 
@@ -61,7 +68,7 @@ nl_bkn_1890  Brooklyn Dodgers      superseded 1890–1957  relocation
     └─ nl_lad_1958  Los Angeles Dodgers   active 1958–     root: nl_bkn_1890
 ```
 
-The name is also split into parts — `label_en-US` is `location_label_en-US` + `nickname_label_en-US` — so consumers can render "Dodgers" or "Los Angeles" without string surgery.
+The name is also split into parts — `label` is `location_label` + `nickname_label` — so consumers can render "Dodgers" or "Los Angeles" without string surgery.
 
 ### venues.csv
 
@@ -125,6 +132,36 @@ So `franchises.league_id` is declared a reference to `sparks_id` in `data/league
 - CSVs are UTF-8 with LF line endings (enforced by `.gitattributes`), one header row, sorted by `sparks_id`.
 - The schema is meant to be stable. Breaking changes are avoided.
 - Identifiers only — no stats, standings, rosters, or other dynamic data.
+
+### Scope: crosswalk, not registry
+
+This repo is a **crosswalk**. It answers "which entity is this, and what does everyone else call it?" — not "tell me about this entity."
+
+The test for whether a field belongs here is **"is it needed to establish or verify identity?"**, which is narrower than "is it an identifier" and wider than it first sounds:
+
+- **Identifiers** obviously stay — `sparks_id` and every external id.
+- **Labels stay.** You cannot review a crosswalk change or debug a mismatch against bare opaque ids. They are a matching aid, not a presentation layer.
+- **Lineage stays** — `root_franchise`, `superseded_by`, `superseded_reason`, `parent_league`, `status`. Identity *over time* is the hardest part of sports crosswalking: `al_mil_1901` and `al_mil_1970` are different franchises that share a city.
+- **Disambiguating years stay.** The founding year is part of a franchise id precisely because it is what tells two otherwise-identical franchises apart.
+- **Descriptive metadata does not belong here.** Coordinates tell you nothing about *which* entity you have.
+
+Richer metadata will live in a separate registry repo, following the same split the sibling PRISM project uses. Fields currently carried here that are registry candidates, and are expected to move:
+
+| Field | Dataset | Why it moves |
+| --- | --- | --- |
+| `latitude_dd`, `longitude_dd` | venues | Pure geography |
+| `country_code`, `subdivision_code`, `city` | venues | Pure geography |
+| `location_label`, `nickname_label` | franchises | Derived — `label` is exactly these two joined |
+
+They are still populated and validated for now. When the registry exists they will be marked `active: false`, which drops them from validation and from the published `dist/` artifacts without removing the data from these files.
+
+### Labels and localization
+
+`label` fields hold the canonical US English name — `Ice Hockey`, `Major League Baseball`, `New York Yankees`. There is deliberately no locale suffix on the field name.
+
+Venue fields (`founding_name`, `current_name`, `city`) are *not* translations but proper nouns recorded in whatever language the thing is actually named: `Estadio Santiago Bernabéu`, `Neo Química Arena`, `Ciudad de México`. Localizing them would be wrong, so they carry no locale marker either.
+
+If localization is ever wanted, it will arrive as a `labels.csv` sidecar keyed on `(entity_type, sparks_id, locale)` rather than as per-locale columns. That way a new language is a data addition, not a schema change — which is what the stability goal above requires.
 
 ## Repository Structure
 

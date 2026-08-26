@@ -1,4 +1,4 @@
-sparks_id,label_en-US,wikidata_uri,iptc_media_topic_uri,espn_api_uri,reuters_sport_slug
+sparks_id,label,wikidata_uri,iptc_media_topic_uri,espn_api_uri,reuters_sport_slug
 baseball,Baseball,https://www.wikidata.org/wiki/Q5369,https://cv.iptc.org/newscodes/mediatopic/20000849,https://sports.core.api.espn.com/v2/sports/baseball,BASEBALL
 basketball,Basketball,https://www.wikidata.org/wiki/Q5372,https://cv.iptc.org/newscodes/mediatopic/20000851,https://sports.core.api.espn.com/v2/sports/basketball,BASKETBALL
 football,Football,https://www.wikidata.org/wiki/Q41323,https://cv.iptc.org/newscodes/mediatopic/20000823,https://sports.core.api.espn.com/v2/sports/football,FOOTBALL
