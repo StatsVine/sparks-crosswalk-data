@@ -4,8 +4,8 @@ fields:
     type: string
     required: true
     description: SPARKS identifier. Globally unique. Safe to be a slug.
-    notes: lowercase, digits, dash, and underscore only.
-    pattern: ^[a-z0-9\-\_]{1,32}$
+    notes: lowercase alphanumeric segments separated by single dashes or underscores.
+    pattern: "^[a-z0-9]+([-_][a-z0-9]+)*$"
     unique: true
   sport_id:
     type: reference
@@ -21,29 +21,29 @@ fields:
     unique: false
     reference_file: ./data/leagues.csv
     reference_column: sparks_id
-  label_en-US:
+  label:
     type: string
     required: true
     description: Full name of the franchise in US English. Not guaranteed to be unique.
-    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
     unique: false
-  location_label_en-US:
+  location_label:
     type: string
     required: true
     description: Location name of the franchise in US English. Not guaranteed to be unique.
-    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
+    pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
     unique: false
-  nickname_label_en-US:
+  nickname_label:
     type: string
     required: true
     description: Nickname of the franchise in US English. Not guaranteed to be unique.
-    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
+    pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,32}$"
     unique: false
   abbreviation:
     type: string
     required: true
     description: Abbreviation of the franchise. Not guaranteed to be unique.
-    pattern: "^[A-Za-z]{1,8}$"
+    pattern: "^[A-Za-z0-9]{1,8}$"
     unique: false
   wikidata_uri:
     type: string
@@ -61,10 +61,12 @@ fields:
     type: integer
     required: true
     description: The year the current franchise was established.
+    pattern: "^(18|19|20)\\d{2}$"
   year_ceased:
     type: integer
     required: false
     description: The year the current franchise ceased. Optional.
+    pattern: "^(18|19|20)\\d{2}$"
   root_franchise:
     type: reference
     required: true

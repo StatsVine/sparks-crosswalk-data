@@ -4,8 +4,8 @@ fields:
     type: string
     required: true
     description: SPARKS identifier. Globally unique. Safe to be a slug.
-    notes: lowercase, digits, and dash only.
-    pattern: ^[a-z0-9\-]{1,32}$
+    notes: lowercase alphanumeric segments separated by single dashes.
+    pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
     unique: true
   sport_id:
     type: reference
@@ -14,17 +14,17 @@ fields:
     unique: false
     reference_file: ./data/sports.csv
     reference_column: sparks_id
-  label_en-US:
+  label:
     type: string
     required: true
     description: Proper name of the league in US English. Unique.
-    pattern: "^[A-Za-zÀ-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
+    pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
     unique: true
   abbreviation:
     type: string
     required: true
     description: Abbreviation of the league. Unique.
-    pattern: "^[A-Za-z]{1,8}$"
+    pattern: "^[A-Za-z0-9]{1,8}$"
     unique: true
   wikidata_uri:
     type: string
@@ -37,7 +37,7 @@ fields:
     type: string
     required: false
     description: ESPN api URI. Unique.
-    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9]{1,32}/leagues/[a-z0-9]{1,32}$"
+    pattern: "^https://sports\\.core\\.api\\.espn\\.com/v2/sports/[a-z0-9\\-]{1,32}/leagues/[a-z0-9\\-]{1,32}$"
     unique: true
   reuters_league_slug:
     type: string
@@ -50,15 +50,32 @@ fields:
     type: integer
     required: true
     description: The year the league was founded.
+    pattern: "^(18|19|20)\\d{2}$"
   year_ceased:
     type: integer
     required: false
     description: The year the league ceased. Optional.
+    pattern: "^(18|19|20)\\d{2}$"
   parent_league:
     type: reference
     required: false
-    description: SPARKS ID of the parent_league of this one.
-    notes: This is mainly for MLB.
+    description: SPARKS ID of the league that contains this one.
+    notes: >-
+      Concurrent containment, not succession: the child league still exists,
+      inside the parent. Use superseded_by for a league that stopped existing
+      and was replaced.
+
+      The AL and NL sit under MLB. Note the parent is younger than its children
+      (MLB 1903, AL 1901, NL 1876) because MLB was created as an umbrella over
+      two leagues that both continued, so "parent founded before child" is not
+      a valid invariant here.
+
+      The AL and NL ceased to be independent legal entities around 2000 and now
+      function as conferences within MLB. That distinction is deliberately not
+      modelled: every provider SPARKS maps to still treats them as live leagues,
+      and franchises reference them as such -- two franchise records exist only
+      to capture AL/NL moves (the 1998 Brewers and the 2013 Astros), which would
+      be destroyed by treating the unification as a supersession.
     reference_file: ./data/leagues.csv
     reference_column: sparks_id
   superseded_by:

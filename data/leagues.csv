@@ -1,8 +1,8 @@
-sparks_id,sport_id,label_en-US,abbreviation,wikidata_uri,espn_api_uri,reuters_league_slug,year_founded,year_ceased,parent_league,superseded_by
-al,baseball,American League,AL,https://www.wikidata.org/wiki/Q465469,,,1901,,,
+sparks_id,sport_id,label,abbreviation,wikidata_uri,espn_api_uri,reuters_league_slug,year_founded,year_ceased,parent_league,superseded_by
+al,baseball,American League,AL,https://www.wikidata.org/wiki/Q465469,,,1901,,mlb,
 apfa-1920,football,American Professional Football Association,APFA,,,,1920,1921,,nfl
 mlb,baseball,Major League Baseball,MLB,https://www.wikidata.org/wiki/Q1163715,https://sports.core.api.espn.com/v2/sports/baseball/leagues/mlb,BASEBALL-MLB,1903,,,
 nba,basketball,National Basketball Association,NBA,https://www.wikidata.org/wiki/Q155223,https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba,BASKETBALL-NBA,1949,,,
 nfl,football,National Football League,NFL,https://www.wikidata.org/wiki/Q1215884,https://sports.core.api.espn.com/v2/sports/football/leagues/nfl,FOOTBALL-NFL,1922,,,
 nhl,ice-hockey,National Hockey League,NHL,https://www.wikidata.org/wiki/Q1215892,https://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl,ICEHOCKEY-NHL,1917,,,
-nl,baseball,National League,NL,https://www.wikidata.org/wiki/Q858082,,,1876,,,
+nl,baseball,National League,NL,https://www.wikidata.org/wiki/Q858082,,,1876,,mlb,
