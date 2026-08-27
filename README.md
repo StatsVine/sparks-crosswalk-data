@@ -121,11 +121,14 @@ Schemas are YAML, one entry per field, declaring:
 - `type` — `string`, `integer`, `decimal`, `enum`, or `reference`
 - `required` — whether the field may be empty
 - `unique` — whether values must be unique across the file
+- `unique_within` — narrows that uniqueness to rows sharing the listed fields
 - `pattern` — a regex the value must match
 - `enum` — the permitted values, for `enum` fields
 - `reference_file` / `reference_column` — for `reference` fields, the cross-file foreign key to check
 
 So `franchises.league_id` is declared a reference to `sparks_id` in `data/leagues.csv`, and CI fails on a franchise pointing at a league that doesn't exist.
+
+`unique_within` exists because some values are only unique inside a namespace. `leagues.abbreviation` is `unique_within: [sport_id]`, so soccer's National League and baseball's National League can both be `NL` — while two baseball leagues sharing an abbreviation is still an error.
 
 ## Conventions
 
