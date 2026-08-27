@@ -304,11 +304,26 @@ produce compact artifacts. The cost is confined to eyeballing raw CSV.
 ### ESPN ids collide across sports
 
 `id=11` is the Athletics in MLB, the Colts in NFL, the Pacers in NBA. So
-`franchises.espn_id` **cannot be `unique: true`** — uniqueness is per sport. Since the
-validator only does global uniqueness, this needs `unique: false` plus a `sparks-tools`
-rule scoped on `(sport_id, espn_id)`.
+`franchises.espn_id` is not globally unique — uniqueness is per sport.
 
-`venues.espn_id` stays `unique: true` — venues come from a single ESPN namespace.
+**Resolved in the schema rather than worked around.** `sparks-tools` gained
+`unique_within`, which narrows uniqueness to rows sharing the listed fields:
+
+```yaml
+espn_id:
+  unique: true
+  unique_within: [sport_id]
+```
+
+This was not a one-off for ESPN. `leagues.label` and `leagues.abbreviation` were
+globally unique and already over-constrained: "Premier League" recurs across football,
+rugby, darts and snooker, and "National League" is both MLB and English football's fifth
+tier. Both are now `unique_within: [sport_id]`.
+
+A field named in `unique_within` must exist in the schema — checked at schema-load time,
+because a typo would silently widen uniqueness back to global.
+
+`venues.espn_id` stays globally `unique: true` — venues come from a single ESPN namespace.
 
 ---
 

@@ -17,15 +17,17 @@ fields:
   label:
     type: string
     required: true
-    description: Proper name of the league in US English. Unique.
+    description: Proper name of the league in US English. Unique per sport.
     pattern: "^[A-Za-z0-9À-ÖØ-öø-ÿ'’\\-\\. ]{1,64}$"
     unique: true
+    unique_within: [sport_id]
   abbreviation:
     type: string
     required: true
-    description: Abbreviation of the league. Unique.
+    description: Abbreviation of the league. Unique per sport.
     pattern: "^[A-Za-z0-9]{1,8}$"
     unique: true
+    unique_within: [sport_id]
   wikidata_uri:
     type: string
     required: false
