@@ -236,12 +236,12 @@ sport_id:    reference -> sports, required         # immutable
 label:       required, unique: false               # current-or-final era label, display only
 status:      enum [active, defunct], required
 mlb_id:      optional                              # lineage-scoped
-espn_id:     optional, unique: false               # see cross-sport collision below
+espn_id:     optional, unique_within: [sport_id]   # ids collide across sports
 
 # franchise_eras.csv
 sparks_id:        al_oak_1968                      # readable, immutable once written
 franchise_id:     reference -> franchises
-league_id:        reference -> leagues             # varies: Astros NL->AL
+primary_league:   reference -> leagues             # varies: Astros NL->AL
 label, location_label, nickname_label
 abbreviation                                       # display shorthand, NOT an identifier
 year_founded, year_ceased
@@ -249,6 +249,28 @@ superseded_reason
 wikidata_uri:     unique: false                    # repeats across league-change eras
 mlb_team_code, mlb_abbreviation, espn_abbreviation # era-scoped join keys
 ```
+
+### League lives on the era, not the franchise
+
+A franchise-level league was considered and rejected. The hierarchy has tiers with
+different stability — top-level league (`mlb`), sub-league or conference (`al`, `nl`),
+division — and only the middle tier is era-scoped for MLB, which makes a franchise-level
+`mlb` look safely immutable.
+
+It is not. **Ten AFL franchises became NFL franchises in 1970**; four ABA franchises
+became NBA in 1976; four WHA became NHL in 1979. Those franchises genuinely changed
+top-level league, so the field would have to be a derived, validated mirror of the
+current-or-final era — a third such mirror to maintain, for a value that is already one
+join away.
+
+Keeping league on the era alone also expresses league supersession naturally: a franchise
+moving from a superseded league to its successor is simply a new era.
+
+`sport_id` stays on the franchise because it really is immutable — AFL to NFL is football
+to football.
+
+This leaves `franchises.csv` with exactly two non-identity fields, each separately
+justified: `label` for review ergonomics, and `status` because it is not derivable.
 
 `root_franchise` disappears — it becomes the parent foreign key. `superseded_by` becomes
 era ordering. `superseded_reason` changes meaning to "why this era ended."
@@ -344,11 +366,6 @@ portable.
 `superseded_by`; franchises get lineage. Sports get neither, so `canadian-football` or
 `futsal` could not be expressed as variants. Currently an accident rather than a decision.
 
-**League membership is many-to-many.** A team is in the AL *and* the Cactus League
-simultaneously. A single `league_id` on an era cannot express that. Membership therefore
-belongs in the registry as a mapping table, not as a field — worth settling before the era
-schema is finalised.
-
 **A founding-year disagreement.** MLB StatsAPI gives the Brewers franchise
 `firstYearOfPlay: 1968`; SPARKS has `al_sea_1969` founded 1969. Probably expansion-awarded
 versus first-played. SPARKS should state which convention it follows.
@@ -359,7 +376,55 @@ weight.
 
 ---
 
-## 8. Roadmap implications
+## 8. Resolved: league membership
+
+Raised as a many-to-many problem — a team is in the AL *and* the Cactus League
+simultaneously — but that conflates two things:
+
+- **League affiliation** — exactly one per era. Identity-relevant, encoded in era ids
+  (`al_oak_1968`), and providers key on it (MLB's team object carries `league: {id: 103}`).
+- **Competition participation** — many. Spring circuits, postseason, and in soccer a club
+  is in La Liga *and* the Champions League *and* a domestic cup at once.
+
+The Cactus League is the second kind, so it does not threaten a singular field. **Decision:**
+`franchise_eras.primary_league` stays singular, named to say so. Competition participation
+is out of scope for the crosswalk.
+
+Secondary leagues split across the boundary the same way everything else does:
+
+- **The Cactus League as an entity** -> `leagues.csv`. It has an MLB StatsAPI id (114), a
+  name and an abbreviation; external sources have identifiers for it.
+- **Which franchises are in it** -> registry. Not identity-establishing, nobody joins on
+  it, and it changes when teams switch spring facilities.
+
+Soccer is what reopens this, not spring training. If soccer leagues land, "competition"
+becomes a first-class concept needing somewhere to live, which forces the `level` question
+at the same time. Dormant while coverage is MLB/NFL/NBA/NHL.
+
+---
+
+## 9. Open: extracting the schema tooling
+
+`prism-tools/crosswalk/validate_players.py` and `sparks-tools/crosswalk/validate_csv.py`
+are the same program, forked — identical function names, comments and error strings. They
+have diverged in complementary directions: SPARKS gained `reference`, `enum`, `active`,
+`decimal`, `unique_within`, sort checking and tests; PRISM gained core-plus-source schema
+layering.
+
+PRISM's schema vocabulary (`description`, `notes`, `pattern`, `required`, `type`, `unique`)
+is a **strict subset** of SPARKS', so there is no divergence to reconcile — only a union to
+take.
+
+The only SPARKS-specific coupling is three lines hardcoding `sparks_id` for the sort check;
+`build_crosswalk_dist.py` has none. Extraction is roughly: make the id field configurable,
+union the feature sets, and have both repos clone it as they already clone tools.
+
+Worth doing **before** promoting `unique_within` to PRISM by hand, or the same feature ends
+up maintained in two forks — which is how these two got here.
+
+---
+
+## 10. Roadmap implications
 
 - **NFL franchises unblock PRISM.** Its `teams.csv` carries a `sparks_id` column sitting
   empty, explicitly waiting on SPARKS football data.
