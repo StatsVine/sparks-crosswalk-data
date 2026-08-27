@@ -145,7 +145,7 @@ The test for whether a field belongs here is **"is it needed to establish or ver
 - **Disambiguating years stay.** The founding year is part of a franchise id precisely because it is what tells two otherwise-identical franchises apart.
 - **Descriptive metadata does not belong here.** Coordinates tell you nothing about *which* entity you have.
 
-Richer metadata will live in a separate registry repo, following the same split the sibling PRISM project uses. Fields currently carried here that are registry candidates, and are expected to move:
+Richer metadata will live in a separate registry repo, following the same split the sibling PRISM project uses. See [DESIGN.md](DESIGN.md) for the full reasoning. Fields currently carried here that are registry candidates, and are expected to move:
 
 | Field | Dataset | Why it moves |
 | --- | --- | --- |
@@ -168,6 +168,7 @@ If localization is ever wanted, it will arrive as a `labels.csv` sidecar keyed o
 - `data/` — source-of-truth CSV files, one per entity type
 - `schema/` — the schema file for each CSV
 - `.github/workflows/` — per-dataset validation, plus the dispatch that rebuilds `sparks-crosswalk`
+- `DESIGN.md` — design decisions and the reasoning behind them
 - `ATTRIBUTION.md` — attribution for upstream sources
 - `LICENSE` — data license
 
