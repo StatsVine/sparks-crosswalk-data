@@ -351,16 +351,11 @@ because a typo would silently widen uniqueness back to global.
 
 ## 7. Open questions
 
-**Coverage semantics.** A blank means both "this provider has no id for this entity" and
-"nobody has checked." For a crosswalk, coverage *is* the product, so losing that distinction
-matters — and it is what makes automated verification hard to write, since a checker cannot
-tell a real gap from unresearched. Making external ids optional widened this. Options: a
-sentinel value, or a coverage sidecar declaring which sources have been swept.
-
 **No verification tooling.** PRISM runs nine `check_*.yml` workflows reconciling ids against
 upstream. SPARKS has none, so identifiers here are written once and never re-checked, while
 ESPN and Reuters change slugs and Wikidata items get merged. `check_wikidata.yml` is directly
-portable.
+portable. Note that a checker needs the known-permanent gaps in section 8 to avoid
+re-flagging them every run.
 
 **Sports have no relationship or lifecycle modelling.** Leagues get `parent_league` and
 `superseded_by`; franchises get lineage. Sports get neither, so `canadian-football` or
@@ -376,7 +371,80 @@ weight.
 
 ---
 
-## 8. Resolved: league membership
+## 8. Resolved: coverage is deliberately not modelled
+
+**Decision: a blank cell stays blank and means only "there is no id here." SPARKS does not
+distinguish "confirmed absent" from "nobody has checked" — no sentinel values, and no
+coverage sidecar.**
+
+### There are three causes of blankness, not two
+
+The question was framed as a two-way ambiguity. Auditing the current data found three:
+
+| Cause | Verified example |
+| --- | --- |
+| **Unresearched** | `franchises.csv` carries `wikidata_uri` and nothing else. No franchise row has ever been swept for an ESPN or MLB id — the column does not exist yet |
+| **Genuinely absent** | `al.espn_api_uri`, `nl.espn_api_uri`. ESPN's league namespace has no `/leagues/al`; it models only `mlb`. No amount of searching produces a value |
+| **The provider draws the entity boundary elsewhere** | `apfa-1920.wikidata_uri`. Wikidata has no APFA item: "American Professional Football Association" and "APFA" are *aliases* on `Q1215884`, which SPARKS already assigns to `nfl`. Since `leagues.wikidata_uri` is `unique: true`, SPARKS structurally cannot record it |
+
+This table is the durable part of the decision. Those blanks are **permanent and correct**,
+and they look like data-entry errors to anyone who has not checked. Whoever writes the first
+`check_*.yml` will otherwise either "fix" them or tune the checker until it stops
+complaining.
+
+### Why not a sentinel value
+
+A sentinel (`-`, `n/a`) in the cell turns *the absence of an identifier* into *a value of
+the identifier column*. Every layer that currently handles ids correctly would need a
+special case in order to keep doing so:
+
+- **The schema.** `espn_id` is `type: integer, pattern: ^\d{1,5}$`. A sentinel must be
+  exempted per-column, per-type, permanently.
+- **The dist build.** `build_crosswalk_dist.py` skips blanks when building `by_field` maps.
+  A sentinel is not blank, so either the build learns about it too or `"-"` becomes a key in
+  the ESPN map — pointing at every entity ESPN does not have.
+- **Consumers.** A JSON reader must know that `espn_id: "-"` is not an id. That is a trap,
+  served to everyone downstream whether they care about coverage or not.
+
+### Why not a coverage sidecar either
+
+A `data/coverage.csv` declaring which sources had been swept over which scope was designed
+and rejected as speculative. **Its only real consumer is verification tooling that does not
+exist** (section 7).
+
+The cost is not the file, it is the protocol the file needs to stay honest. A sweep is a
+point-in-time claim about a row set that keeps growing: add a Negro League franchise
+tomorrow and a past ESPN sweep would silently annex it, turning an unresearched blank into
+a confirmed absence. Keeping that sound requires recording an in-scope row count per sweep
+and re-bumping it on every data edit that changes one — a standing manual obligation on a
+45-row table, paid now, to serve a checker that may never be written. It also wanted two
+`sparks-tools` changes before it could even be validated.
+
+Section 6 already states the position that makes this affordable to skip: *"Sparsity is
+accepted: 'this entity is known to these N of M sources' is the data."*
+
+### What this costs
+
+Every blank reads as unknown. That is the **honest** default — nothing claims coverage it
+does not have — and at current scale (5 sports, 7 leagues, 45 franchises, 110 venues) the
+picture is small enough to hold directly.
+
+**What would reopen it:** the first `check_*.yml`. A checker reconciling SPARKS against a
+live provider list cannot tell a permanent gap from an unresearched one, so it will need an
+exception list. At that point the exception list *is* the coverage table, and it should be
+built as data rather than buried in a workflow file. Until then, the table above is the
+record.
+
+### Consequences for the franchise/era split
+
+**The split is unblocked and its table shape is unchanged.** This was the open question that
+could still have moved it, and the answer moves nothing — and now adds nothing to build.
+Because absence is never written into a cell, the provider-code columns in the section 5
+sketch stay typed, stay optional, and gain no `*_checked` companions.
+
+---
+
+## 9. Resolved: league membership
 
 Raised as a many-to-many problem — a team is in the AL *and* the Cactus League
 simultaneously — but that conflates two things:
@@ -403,7 +471,7 @@ at the same time. Dormant while coverage is MLB/NFL/NBA/NHL.
 
 ---
 
-## 9. Open: extracting the schema tooling
+## 10. Open: extracting the schema tooling
 
 `prism-tools/crosswalk/validate_players.py` and `sparks-tools/crosswalk/validate_csv.py`
 are the same program, forked — identical function names, comments and error strings. They
@@ -424,7 +492,7 @@ up maintained in two forks — which is how these two got here.
 
 ---
 
-## 10. Roadmap implications
+## 11. Roadmap implications
 
 - **NFL franchises unblock PRISM.** Its `teams.csv` carries a `sparks_id` column sitting
   empty, explicitly waiting on SPARKS football data.
